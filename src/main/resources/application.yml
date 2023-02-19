@@ -13,4 +13,3 @@ spring:
       path: /h2-console
       settings.trace: false
       settings.web-allow-others: false
-
