@@ -1,5 +1,5 @@
 package springboot.intro.conference.repository;
-
-class SpeakerIntegrationTest {
+@DataJpaTest
+class SessionIntegrationTest {
 
 }
