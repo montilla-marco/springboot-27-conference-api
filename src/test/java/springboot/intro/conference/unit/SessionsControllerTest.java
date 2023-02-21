@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -43,7 +44,6 @@ class SessionsControllerTest {
         session.setSessionLength(45);
         session.setSessionDescription("Spring Boot first short intro");
         session.setSessionName("Spring Boot");
-        session.setSpeakers(null);
         when(sessionRepository.findById(anyLong())).thenReturn(Optional.of(session));
 
         // act
@@ -76,7 +76,6 @@ class SessionsControllerTest {
         session.setSessionLength(45);
         session.setSessionDescription("Spring Boot first short intro");
         session.setSessionName("Spring Boot");
-        session.setSpeakers(null);
         List<Session> expected = new ArrayList();
         expected.add(session);
         when(sessionRepository.findAll()).thenReturn(expected);
@@ -86,6 +85,26 @@ class SessionsControllerTest {
         // assert
         assertIterableEquals(expected, result);
         Session sessionResult = result.get(0);
+        assertThat(sessionResult.getSessionId()).isEqualTo(session.getSessionId());
+        assertThat(sessionResult.getSessionDescription()).isEqualTo(session.getSessionDescription());
+        assertThat(sessionResult.getSessionName()).isEqualTo(session.getSessionName());
+        assertThat(sessionResult.getSessionLength()).isEqualTo(session.getSessionLength());
+        assertThat(sessionResult.getSpeakers()).isNull();
+    }
+
+    @Test
+    void givenNewSession_whenSave_thenReturnSession() {
+        // arrange
+        Session session = new Session();
+        session.setSessionLength(45);
+        session.setSessionDescription("Spring Boot first short intro");
+        session.setSessionName("Spring Boot");
+        when(sessionRepository.save(any(Session.class))).thenReturn(session);
+
+        // act
+        Session sessionResult = controller.save(session);
+
+        // assert
         assertThat(sessionResult.getSessionId()).isEqualTo(session.getSessionId());
         assertThat(sessionResult.getSessionDescription()).isEqualTo(session.getSessionDescription());
         assertThat(sessionResult.getSessionName()).isEqualTo(session.getSessionName());

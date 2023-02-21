@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import springboot.intro.conference.entity.Session;
 import springboot.intro.conference.repository.SessionRepository;
@@ -11,6 +12,7 @@ import springboot.intro.conference.repository.SessionRepository;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,10 +31,11 @@ class SessionRepositoryTest {
     private final static Long NULL_ID = null;
 
     @Test
-    void givenNullId_whenFindById_thenThrownIllegalArgumentException() {
+    void givenNullId_whenFindById_thenThrownInvalidDataAccessApiUsageException() {
         // arrange
         String expectedMessage = "The given id must not be null!";
 
+        // assert
         Exception exception = assertThrows(InvalidDataAccessApiUsageException.class, () -> {
             // act
             Optional<Session> found = repository.findById(NULL_ID);
@@ -52,7 +55,7 @@ class SessionRepositoryTest {
     }
 
     @Test
-    void givenId_whenFindById_thenReturnSession() {
+    void givenValidId_whenFindById_thenReturnSession() {
         // act
         Optional<Session> found = repository.findById(VALID_ID);
 
@@ -72,4 +75,47 @@ class SessionRepositoryTest {
     //todo database versioning and preparing data for test
     @Test
     void whenFindAll_thenReturnEmptySessions() { }
+
+    @Test
+    void whenCreateANullEntity_thenThrownInvalidDataAccessApiUsageException() {
+        // arrange
+        String expectedMessage = "Entity must not be null.";
+
+        // assert
+        Exception exception = assertThrows(InvalidDataAccessApiUsageException.class, () -> {
+            // act
+            repository.saveAndFlush(null);
+        });
+
+        // assert
+        assertTrue(exception.getMessage().contains(expectedMessage));
+    }
+
+    @Test
+    void whenCreateAEmptyEntity_thenThrownInvalidDataAccessApiUsageException() {
+        // assert
+        Exception exception = assertThrows(DataIntegrityViolationException.class, () -> {
+            // act
+            repository.saveAndFlush(new Session());
+        });
+    }
+
+    @Test
+    void whenCreateAValidEntity_thenReturnNotEmptySession() {
+        // arrange
+        Session session = new Session();
+        session.setSessionLength(45);
+        session.setSessionDescription("Spring Boot first short intro");
+        session.setSessionName("Spring Boot");
+
+        // act
+        Session result = repository.save(session);
+
+        // assert
+        assertThat(result).isNotNull();
+        assertThat(result.getSessionDescription()).isEqualTo(session.getSessionDescription());
+        assertThat(result.getSessionName()).isEqualTo(session.getSessionName());
+        assertThat(result.getSessionLength()).isEqualTo(session.getSessionLength());
+        assertThat(result.getSpeakers()).isNull();
+    }
 }
