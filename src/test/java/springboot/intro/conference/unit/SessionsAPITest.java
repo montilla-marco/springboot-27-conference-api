@@ -11,6 +11,8 @@ import springboot.intro.conference.controller.SessionsController;
 import springboot.intro.conference.entity.Session;
 import springboot.intro.conference.repository.SessionRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -18,6 +20,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @WebMvcTest(SessionsController.class)
 class SessionsAPITest {
 
@@ -28,7 +31,7 @@ class SessionsAPITest {
     private SessionRepository sessionRepository;
 
     @Test
-    void givenNoSession_whenGetById_thenReturnEmptyBody() throws Exception {
+    void givenNoSession_whenFindById_thenReturnEmptyBody() throws Exception {
         // act and assert
         this.mockMvc.perform(get("/api/v1/sessions/1"))
                 .andExpect(status().isOk())
@@ -36,7 +39,7 @@ class SessionsAPITest {
     }
 
     @Test
-    void giveOneSession_whenGetAllSession_thenReturnNotEmptyBody() throws Exception {
+    void giveOneSession_whenFindById_thenReturnNotEmptyBody() throws Exception {
         // arrange
         Session session = new Session();
         session.setSessionId(1L);
@@ -48,10 +51,40 @@ class SessionsAPITest {
         ObjectMapper mapper = new ObjectMapper();
         //Converting the Object to JSONString
         String expectedSessionJson = mapper.writeValueAsString(session);
-
+        // act and assert
         this.mockMvc.perform(get("/api/v1/sessions/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedSessionJson));
     }
 
+    @Test
+    void givenNoSession_whenFindAll_thenReturnEmptyBody() throws Exception {
+        // act and assert
+        this.mockMvc.perform(get("/api/v1/sessions"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(Matchers.emptyString()));
+    }
+
+    @Test
+    void giveOneSession_whenFindAll_thenReturnNotEmptyBody() throws Exception {
+        // arrange
+        Session session = new Session();
+        session.setSessionId(1L);
+        session.setSessionLength(45);
+        session.setSessionDescription("Spring Boot first short intro");
+        session.setSessionName("Spring Boot");
+        session.setSpeakers(null);
+        List<Session> expected = new ArrayList();
+        expected.add(session);
+        when(sessionRepository.findAll()).thenReturn(expected);
+
+        ObjectMapper mapper = new ObjectMapper();
+        //Converting the Object to JSONString
+        String expectedSessionsJson = mapper.writeValueAsString(expected);
+
+        // act and assert
+        this.mockMvc.perform(get("/api/v1/sessions"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedSessionsJson));
+    }
 }

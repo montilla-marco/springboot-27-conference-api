@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springboot.intro.conference.entity.Session;
 import springboot.intro.conference.repository.SessionRepository;
 
+import java.util.List;
 import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/sessions")
@@ -20,5 +21,11 @@ public class SessionsController {
     public Session findById(@PathVariable(name = "id", required = true) Long id) {
         Optional<Session> session = sessionRepository.findById(id);
         return session.isPresent() ? session.get() : null;
+    }
+
+    @GetMapping
+    public List<Session> findAll() {
+        List<Session> sessions = sessionRepository.findAll();
+        return sessions.isEmpty() ? null : sessions;
     }
 }

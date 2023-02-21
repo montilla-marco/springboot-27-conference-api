@@ -8,6 +8,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import springboot.intro.conference.entity.Session;
 import springboot.intro.conference.repository.SessionRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,7 +43,7 @@ class SessionRepositoryTest {
     }
 
     @Test
-    void givenNullId_whenFindById_thenReturnSession() {
+    void givenInvalidId_whenFindById_thenReturnEmptySession() {
         // act
         Optional<Session> found = repository.findById(INVALID_ID);
 
@@ -58,4 +59,17 @@ class SessionRepositoryTest {
         // assert
         assertEquals(found.get().getSessionId(), VALID_ID);
     }
+
+    @Test
+    void whenFindAll_thenReturnNotEmptySessions() {
+        // act
+        List<Session> found = repository.findAll();
+
+        // asert
+        assertTrue(found.size() > 0);
+    }
+
+    //todo database versioning and preparing data for test
+    @Test
+    void whenFindAll_thenReturnEmptySessions() { }
 }
