@@ -22,7 +22,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
-test {
-	exclude 'springboot/intro/conference/integration/**'
-}
