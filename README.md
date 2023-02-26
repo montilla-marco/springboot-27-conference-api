@@ -40,3 +40,4 @@ These additional references should also help you:
 * [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/docs/2.7.8/reference/html/)
 * [Spring @RequestParam Annotation](https://www.baeldung.com/spring-request-param)
 * [What does @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) do?](https://stackoverflow.com/questions/67353793/what-does-jsonignorepropertieshibernatelazyinitializer-handler-do)
+* [Java bean mappings, the easy way!](https://mapstruct.org/)
