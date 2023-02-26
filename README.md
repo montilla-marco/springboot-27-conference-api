@@ -41,3 +41,4 @@ These additional references should also help you:
 * [Spring @RequestParam Annotation](https://www.baeldung.com/spring-request-param)
 * [What does @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) do?](https://stackoverflow.com/questions/67353793/what-does-jsonignorepropertieshibernatelazyinitializer-handler-do)
 * [Java bean mappings, the easy way!](https://mapstruct.org/)
+* [A Guide To Logback](https://www.baeldung.com/logback)
