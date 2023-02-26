@@ -108,6 +108,8 @@ VALUES (1,'Keynote - The Golden Age of Software',45,''),
        (90,'Communication Skills for the Technology Professional',30,''),
        (91,'Personal Kanban',30,'');
 
+ALTER sequence SESSIONS_SEQ restart with 101;
+
 INSERT INTO session_schedule (schedule_id, time_slot_id, session_id, room)
 VALUES (1,1,1,'Grand Ballroom'),
        (2,2,2,'Cedar'),

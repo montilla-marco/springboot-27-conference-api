@@ -62,11 +62,13 @@ CREATE TABLE IF NOT EXISTS time_slots
 
 CREATE TABLE IF NOT EXISTS sessions
 (
-    session_id          SERIAL PRIMARY KEY,
+    session_id          integer PRIMARY KEY,
     session_name        varchar(80)   NOT NULL,
     session_description varchar(1024) NOT NULL,
     session_length      integer       NOT NULL
 );
+
+CREATE SEQUENCE IF NOT EXISTS sessions_seq AS INTEGER START WITH 100;
 
 CREATE TABLE IF NOT EXISTS session_schedule
 (

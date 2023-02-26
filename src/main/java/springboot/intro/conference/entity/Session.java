@@ -1,20 +1,15 @@
 package springboot.intro.conference.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
-import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity(name = "sessions")
 public class Session {
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = SEQUENCE, generator="sessions_gen")
+    @SequenceGenerator(name = "sessions_gen", sequenceName = "sessions_seq", allocationSize = 1)
     @Column(name = "session_id")
     private Long sessionId;
     @Column(name = "session_name")
