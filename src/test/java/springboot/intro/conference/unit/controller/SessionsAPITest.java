@@ -1,4 +1,4 @@
-package springboot.intro.conference.unit;
+package springboot.intro.conference.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;

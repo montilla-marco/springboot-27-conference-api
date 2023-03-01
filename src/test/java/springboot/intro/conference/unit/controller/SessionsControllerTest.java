@@ -1,4 +1,4 @@
-package springboot.intro.conference.unit;
+package springboot.intro.conference.unit.controller;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
