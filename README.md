@@ -42,3 +42,4 @@ These additional references should also help you:
 * [What does @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) do?](https://stackoverflow.com/questions/67353793/what-does-jsonignorepropertieshibernatelazyinitializer-handler-do)
 * [Java bean mappings, the easy way!](https://mapstruct.org/)
 * [A Guide To Logback](https://www.baeldung.com/logback)
+* [Common Application Properties](https://docs.spring.io/spring-boot/docs/2.7.x/reference/html/application-properties.html#appendix.application-properties.web)
